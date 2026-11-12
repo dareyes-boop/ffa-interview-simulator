@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California FFA Employment Skills CDE | Voice Interview Simulator (2026–2027)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for crisp UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ffa: {
+                            navy: '#002D62',
+                            navyDark: '#001D40',
+                            navyLight: '#0A4285',
+                            gold: '#FDB913',
+                            goldHover: '#E5A50A',
+                            goldLight: '#FFF8E6',
+                            slate: '#F4F6F9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F4F6F9;
+            color: #1E293B;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated audio equalizer bars for Judge Speaking State */
+        .waveform-bar {
+            width: 4px;
+            border-radius: 9999px;
+            background-color: #FDB913;
+            animation: wavePulse 0.9s ease-in-out infinite;
+        }
+        .waveform-bar:nth-child(1) { height: 12px; animation-delay: 0.0s; }
+        .waveform-bar:nth-child(2) { height: 24px; animation-delay: 0.15s; }
+        .waveform-bar:nth-child(3) { height: 32px; animation-delay: 0.3s; }
+        .waveform-bar:nth-child(4) { height: 20px; animation-delay: 0.45s; }
+        .waveform-bar:nth-child(5) { height: 28px; animation-delay: 0.6s; }
+        .waveform-bar:nth-child(6) { height: 14px; animation-delay: 0.75s; }
+
+        @keyframes wavePulse {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.2); }
+        }
+
+        /* Pulsing microphone ring when listening */
+        .mic-pulse-ring {
+            animation: micRipple 1.5s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+
+        @keyframes micRipple {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            70% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94A3B8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748B;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Official California FFA Header -->
+    <header class="bg-ffa-navy text-white shadow-lg border-b-4 border-ffa-gold sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+                <!-- Custom SVG FFA-Inspired Emblem Badge -->
+                <div class="w-11 h-11 rounded-xl bg-ffa-gold flex items-center justify-center text-ffa-navy shadow-md shrink-0">
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2L14.8 8.5L22 9.2L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.2L9.2 8.5L12 2Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider bg-ffa-gold/20 text-ffa-gold px-2 py-0.5 rounded border border-ffa-gold/40">2026–2027 CDE Rules</span>
+                        <span class="hidden sm:inline text-xs text-blue-200">California Association FFA</span>
+                    </div>
+                    <h1 class="font-display text-lg sm:text-xl font-extrabold tracking-tight text-white">
+                        Employment Skills (Job Interview) Simulator
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Right Status & Quick Reset -->
+            <div class="flex items-center gap-3">
+                <div id="header-timer-badge" class="hidden items-center gap-2 bg-ffa-navyDark px-3.5 py-1.5 rounded-lg border border-blue-700/60">
+                    <i class="fa-regular fa-clock text-ffa-gold"></i>
+                    <span class="text-xs text-blue-200 font-medium">Contest Clock:</span>
+                    <span id="header-countdown" class="font-mono font-bold text-sm text-white">10:00</span>
+                </div>
+                <button onclick="confirmReturnToSetup()" id="btn-header-reset" class="hidden text-xs sm:text-sm bg-white/10 hover:bg-white/20 text-white font-medium px-3.5 py-2 rounded-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Change Role / Restart</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Non-blocking Toast / Notification Banner -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-md w-full px-4 pointer-events-none"></div>
+
+    <!-- Confirmation Modal (Replaces native confirm()) -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200 animate-fade-in">
+            <div class="flex items-center gap-3 text-ffa-navy mb-3">
+                <div class="w-10 h-10 rounded-full bg-ffa-goldLight text-ffa-navy flex items-center justify-center text-lg font-bold">
+                    <i class="fa-solid fa-circle-question"></i>
+                </div>
+                <h3 id="modal-title" class="font-display font-bold text-lg">Confirm Action</h3>
+            </div>
+            <p id="modal-message" class="text-slate-600 text-sm leading-relaxed mb-6">Are you sure you want to proceed?</p>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeCustomModal()" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                    Cancel
+                </button>
+                <button id="modal-confirm-btn" class="px-5 py-2.5 rounded-xl text-sm font-bold text-ffa-navy bg-ffa-gold hover:bg-ffa-goldHover shadow-sm transition">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ===================================================================== -->
+        <!-- SCREEN 1: SETUP & 2026-2027 CAREER AREA CONFIGURATION                  -->
+        <!-- ===================================================================== -->
+        <section id="screen-setup" class="space-y-6">
+            <!-- Hero Intro Card -->
+            <div class="bg-gradient-to-r from-ffa-navy to-ffa-navyLight rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-ffa-gold text-ffa-navy px-3 py-1 rounded-full mb-3">
+                        <i class="fa-solid fa-microphone-lines"></i> Voice-Interactive CDE Practice
+                    </span>
+                    <h2 class="font-display text-2xl sm:text-3xl font-extrabold mb-2">
+                        Step Into the California FFA Interview Room
+                    </h2>
+                    <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                        Practice with an AI-powered 3-judge industry panel tailored to the official <strong>2026–2027 California FFA Employment Skills Job Descriptions</strong>. Speak your answers aloud, hear realistic follow-up and role-specific questions, and receive an official 60-point oral interview rubric evaluation.
+                    </p>
+                </div>
+                <div class="hidden lg:block absolute right-8 bottom-0 opacity-10 pointer-events-none">
+                    <i class="fa-solid fa-wheat-awn text-[160px]"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left Column: Student Info, Career Selection & Round Settings (7 cols) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Step 1: Contestant & Career Area -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+                        <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
+                            <span class="w-7 h-7 rounded-lg bg-ffa-navy text-white font-bold text-sm flex items-center justify-center">1</span>
+                            <h3 class="font-display font-bold text-lg text-ffa-navy">Contestant & 2026–2027 Career Selection</h3>
+                        </div>
+
+                        <div class="space-y-5">
+                            <!-- Student Name -->
+                            <div>
+                                <label for="student-name" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                    Contestant Name <span class="text-slate-400 font-normal">(Optional — used by judges during greeting)</span>
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </span>
+                                    <input type="text" id="student-name" placeholder="e.g., Jordan Alvarez (Chapter President)"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-ffa-navy focus:border-ffa-navy text-sm transition">
+                                </div>
+                            </div>
+
+                            <!-- Career Area Dropdown -->
+                            <div>
+                                <label for="career-select" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                    Official 2026–2027 Career Area & Job Title <span class="text-red-500">*</span>
+                                </label>
+                                <select id="career-select" onchange="updateJobPreview()"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-ffa-navy focus:border-ffa-navy text-sm font-medium text-slate-800 shadow-sm transition">
+                                    <option value="ag_business">1. Agriculture Business Management – Agricultural Sales & Customer Service Assistant (Pan American Seed)</option>
+                                    <option value="ag_mechanics">2. Agriculture Mechanics – Agricultural Equipment Technician Trainee (Pape’ Machinery)</option>
+                                    <option value="animal_science">3. Animal Science – Dairy Operations Assistant (Hilmar Cheese Company)</option>
+                                    <option value="floriculture">4. Floriculture – Floriculture Production & Design Assistant (D’Lily’s Flower Shop)</option>
+                                    <option value="forestry">5. Forestry & Natural Resources – Forestry Technician (Trinity River Lumber Company)</option>
+                                    <option value="ornamental_hort">6. Ornamental Horticulture – Nursery Production Assistant (Boething Treeland Farms)</option>
+                                    <option value="plant_soil">7. Plant and Soil Science – Agricultural Laboratory Technician (Safe Food Alliance)</option>
+                                </select>
+                            </div>
+
+                            <!-- Round Length Selector -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Practice Round Length
+                                </label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="round-length" value="5" class="peer sr-only">
+                                        <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-ffa-navy peer-checked:bg-blue-50/60 hover:border-slate-300 transition h-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-bold text-sm text-ffa-navy">Quick Drill</span>
+                                                <span class="text-xs font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded">5 Qs</span>
+                                            </div>
+                                            <p class="text-xs text-slate-500">Fast warm-up (~4–5 mins). Mix of core & role questions.</p>
+                                        </div>
+                                    </label>
+
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="round-length" value="8" checked class="peer sr-only">
+                                        <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-ffa-navy peer-checked:bg-blue-50/60 hover:border-slate-300 transition h-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-bold text-sm text-ffa-navy">Standard Mock</span>
+                                                <span class="text-xs font-bold bg-ffa-gold text-ffa-navy px-2 py-0.5 rounded">8 Qs</span>
+                                            </div>
+                                            <p class="text-xs text-slate-500">Balanced sectional/regional prep (~7–8 mins).</p>
+                                        </div>
+                                    </label>
+
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="round-length" value="10" class="peer sr-only">
+                                        <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-ffa-navy peer-checked:bg-blue-50/60 hover:border-slate-300 transition h-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-bold text-sm text-ffa-navy">Full Contest</span>
+                                                <span class="text-xs font-bold bg-ffa-navy text-white px-2 py-0.5 rounded">10 Qs</span>
+                                            </div>
+                                            <p class="text-xs text-slate-500">State Finals pace against strict 10-min limit.</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Voice, Audio & Classroom Accessibility Controls -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+                        <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
+                            <span class="w-7 h-7 rounded-lg bg-ffa-navy text-white font-bold text-sm flex items-center justify-center">2</span>
+                            <h3 class="font-display font-bold text-lg text-ffa-navy">Voice & Classroom Audio Settings</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <!-- Judge Voice Toggle -->
+                            <div class="flex items-start justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                                <div class="pr-3">
+                                    <div class="font-semibold text-sm text-slate-800 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-volume-high text-ffa-navy"></i> Judge Voice (TTS)
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-0.5">Judges speak questions out loud using natural AI/browser speech.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer mt-1">
+                                    <input type="checkbox" id="toggle-tts" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ffa-navy"></div>
+                                </label>
+                            </div>
+
+                            <!-- Microphone STT Toggle -->
+                            <div class="flex items-start justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                                <div class="pr-3">
+                                    <div class="font-semibold text-sm text-slate-800 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-microphone text-ffa-navy"></i> Speech-to-Text Mic
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-0.5">Transcribe spoken answers live (editable text box always available).</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer mt-1">
+                                    <input type="checkbox" id="toggle-stt" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ffa-navy"></div>
+                                </label>
+                            </div>
+
+                            <!-- Auto-Listen After Judge Speaks -->
+                            <div class="flex items-start justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 sm:col-span-2">
+                                <div class="pr-3">
+                                    <div class="font-semibold text-sm text-slate-800 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-bolt text-amber-500"></i> Hands-Free Auto-Listen
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-0.5">Automatically activate your microphone immediately after the judge finishes asking each question.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer mt-1">
+                                    <input type="checkbox" id="toggle-autolisten" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ffa-navy"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Microphone Permission & Browser Support Helper -->
+                        <div class="bg-blue-50/80 border border-blue-200 rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                            <div class="text-xs text-slate-700">
+                                <strong class="text-ffa-navy"><i class="fa-solid fa-circle-info mr-1"></i> Classroom & Browser Tip:</strong>
+                                Works best in Chrome, Edge, or Safari. If your browser prompts for microphone permission, click <strong>Allow</strong>. In noisy classrooms, you can also type or edit your response directly.
+                            </div>
+                            <button type="button" onclick="testMicrophonePermission()" id="btn-test-mic" class="shrink-0 text-xs font-bold bg-white hover:bg-slate-100 text-ffa-navy border border-slate-300 px-3 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-ear-listen"></i> Test Mic
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Official 2026-2027 Job Description Dossier (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 flex-grow flex flex-col">
+                        <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-ffa-navy bg-ffa-goldLight px-2.5 py-1 rounded-md border border-ffa-gold/40">
+                                Official 2026–2027 Job Posting
+                            </span>
+                            <span id="job-area-badge" class="text-xs font-semibold text-slate-500">Ag Business</span>
+                        </div>
+
+                        <h3 id="job-title-preview" class="font-display font-extrabold text-xl text-ffa-navy leading-snug mb-3">
+                            Agricultural Sales & Customer Service Assistant
+                        </h3>
+
+                        <!-- Employer Metadata Box -->
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-2 text-xs sm:text-sm mb-4">
+                            <div class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-building text-ffa-navy mt-0.5 w-4 text-center"></i>
+                                <div><span class="font-semibold text-slate-700">Employer:</span> <span id="job-employer-preview" class="text-slate-900 font-medium">Pan American Seed</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-location-dot text-ffa-navy mt-0.5 w-4 text-center"></i>
+                                <div><span class="font-semibold text-slate-700">Location:</span> <span id="job-location-preview" class="text-slate-600">335 S. Briggs Road, Santa Paula, CA 93060</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-address-card text-ffa-navy mt-0.5 w-4 text-center"></i>
+                                <div><span class="font-semibold text-slate-700">Hiring Contact:</span> <span id="job-contact-preview" class="text-slate-600">Emily Ramirez, Human Resources Manager</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-globe text-ffa-navy mt-0.5 w-4 text-center"></i>
+                                <div><span class="font-semibold text-slate-700">Website:</span> <span id="job-website-preview" class="text-blue-700 underline break-all">https://www.panamseed.com</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Official Description -->
+                        <div class="mb-4 flex-grow">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Official Position Description</h4>
+                            <p id="job-desc-preview" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Pan American Seed is seeking an entry-level Agricultural Sales & Customer Service Assistant to support customers, sales representatives, and internal agricultural operations...
+                            </p>
+                        </div>
+
+                        <!-- Key Industry Terms & Focus Skills -->
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Key Skills & Terminology Judges Look For</h4>
+                            <div id="job-skills-preview" class="flex flex-wrap gap-1.5">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Primary Start CTA Button -->
+                    <button onclick="startInterviewSimulation()" id="btn-start-sim"
+                        class="w-full py-4 px-6 rounded-2xl bg-ffa-gold hover:bg-ffa-goldHover text-ffa-navy font-display font-extrabold text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-door-open text-xl"></i>
+                        <span>Enter Interview Room & Begin</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================== -->
+        <!-- SCREEN 2: LIVE VOICE INTERACTIVE INTERVIEW STAGE                      -->
+        <!-- ===================================================================== -->
+        <section id="screen-interview" class="hidden space-y-6">
+            <!-- Top Progress & Contest Rules Bar -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="bg-ffa-navy text-white text-xs font-bold px-3 py-1.5 rounded-lg">
+                        Question <span id="q-current-num">1</span> of <span id="q-total-num">8</span>
+                    </span>
+                    <span id="q-category-badge" class="text-xs font-semibold bg-ffa-goldLight text-ffa-navy border border-ffa-gold/40 px-2.5 py-1 rounded-md">
+                        Core FFA Question
+                    </span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="flex-grow max-w-md hidden md:block">
+                    <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                        <div id="interview-progress-bar" class="bg-ffa-navy h-2.5 rounded-full transition-all duration-500" style="width: 12.5%"></div>
+                    </div>
+                </div>
+
+                <!-- Timers & Early Finish -->
+                <div class="flex items-center gap-3">
+                    <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg font-medium">
+                        Answer Time: <span id="question-elapsed" class="font-mono font-bold text-ffa-navy">0:00</span>
+                    </div>
+                    <button onclick="confirmEndEarly()" class="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-lg transition">
+                        End Round & Grade
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3-Judge Industry Panel Visual Stage -->
+            <div class="bg-gradient-to-b from-ffa-navyDark to-ffa-navy rounded-2xl p-6 sm:p-8 text-white shadow-xl border border-blue-900">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-ffa-gold">California FFA Industry Judging Panel</span>
+                        <h2 id="stage-role-header" class="text-sm sm:text-base text-blue-100 font-medium mt-0.5">
+                            Interviewing for: Agricultural Sales & Customer Service Assistant — Pan American Seed
+                        </h2>
+                    </div>
+                    <!-- Live Speaking Waveform Indicator -->
+                    <div id="judge-speaking-indicator" class="hidden items-center gap-2.5 bg-white/10 border border-ffa-gold/40 px-3.5 py-2 rounded-xl">
+                        <div class="flex items-center gap-1 h-6">
+                            <span class="waveform-bar"></span>
+                            <span class="waveform-bar"></span>
+                            <span class="waveform-bar"></span>
+                            <span class="waveform-bar"></span>
+                            <span class="waveform-bar"></span>
+                            <span class="waveform-bar"></span>
+                        </div>
+                        <span class="text-xs font-bold text-ffa-gold uppercase tracking-wider">Judge Speaking...</span>
+                    </div>
+                </div>
+
+                <!-- 3 Judge Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <!-- Judge 1 -->
+                    <div id="judge-card-0" class="judge-card bg-white/10 border-2 border-transparent rounded-xl p-4 flex items-center gap-3.5 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-full bg-blue-800 border-2 border-ffa-gold/60 flex items-center justify-center text-ffa-gold font-display font-bold text-lg shrink-0">
+                            J1
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs text-ffa-gold font-semibold">Lead Industry Judge</div>
+                            <div id="judge-1-name" class="font-bold text-sm text-white truncate">Emily Ramirez</div>
+                            <div id="judge-1-title" class="text-xs text-blue-200 truncate">Human Resources Manager</div>
+                        </div>
+                    </div>
+
+                    <!-- Judge 2 -->
+                    <div id="judge-card-1" class="judge-card bg-white/10 border-2 border-transparent rounded-xl p-4 flex items-center gap-3.5 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-full bg-blue-800 border-2 border-blue-400/40 flex items-center justify-center text-blue-200 font-display font-bold text-lg shrink-0">
+                            J2
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs text-blue-300 font-semibold">Operations Panelist</div>
+                            <div class="font-bold text-sm text-white truncate">David Vance</div>
+                            <div class="text-xs text-blue-200 truncate">Regional Ag Operations Dir.</div>
+                        </div>
+                    </div>
+
+                    <!-- Judge 3 -->
+                    <div id="judge-card-2" class="judge-card bg-white/10 border-2 border-transparent rounded-xl p-4 flex items-center gap-3.5 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-full bg-blue-800 border-2 border-blue-400/40 flex items-center justify-center text-blue-200 font-display font-bold text-lg shrink-0">
+                            J3
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-xs text-blue-300 font-semibold">Agribusiness Panelist</div>
+                            <div class="font-bold text-sm text-white truncate">Sarah Jenkins</div>
+                            <div class="text-xs text-blue-200 truncate">CA Ag Industry Representative</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Question Prompt Display -->
+                <div class="bg-white text-slate-900 rounded-2xl p-5 sm:p-6 shadow-inner relative">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span id="active-judge-label" class="text-xs font-extrabold uppercase tracking-wider text-ffa-navy flex items-center gap-1.5">
+                            <i class="fa-solid fa-comment-dots text-ffa-gold"></i> Judge 1 Asks:
+                        </span>
+                        <button onclick="replayCurrentQuestion()" id="btn-replay-audio"
+                            class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-ffa-navy px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-volume-high"></i>
+                            <span>Replay Question Audio</span>
+                        </button>
+                    </div>
+
+                    <div id="question-loading-skeleton" class="hidden py-4 space-y-2 animate-pulse">
+                        <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+                        <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+                    </div>
+
+                    <p id="current-question-text" class="font-display text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+                        Loading interview question...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Student Voice Capture & Response Area -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div>
+                        <h3 class="font-display font-bold text-base sm:text-lg text-ffa-navy">Your Spoken Response</h3>
+                        <p class="text-xs text-slate-500">Click the microphone button to speak naturally, or type/edit your answer below.</p>
+                    </div>
+
+                    <!-- Primary Push-to-Speak Microphone Button -->
+                    <div class="flex items-center gap-3">
+                        <div class="relative inline-flex items-center justify-center">
+                            <span id="mic-pulse-ring" class="hidden absolute inset-0 rounded-xl bg-rose-500 mic-pulse-ring"></span>
+                            <button onclick="toggleSpeechRecognition()" id="btn-mic-toggle"
+                                class="relative z-10 px-5 py-3 rounded-xl font-bold text-sm text-white bg-ffa-navy hover:bg-ffa-navyLight shadow-md transition flex items-center gap-2.5">
+                                <i id="mic-btn-icon" class="fa-solid fa-microphone text-base"></i>
+                                <span id="mic-btn-text">Start Speaking Answer</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Status Strip -->
+                <div id="recording-status-bar" class="hidden items-center justify-between bg-rose-50 border border-rose-200 text-rose-800 px-4 py-2.5 rounded-xl text-xs font-semibold">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+                        <span>Listening to your microphone... Speak clearly and concisely (avoid filler words like "um" or "like").</span>
+                    </div>
+                    <span id="live-interim-badge" class="italic text-rose-600 truncate max-w-xs"></span>
+                </div>
+
+                <!-- Editable Live Transcript Textarea -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="answer-transcript" class="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            Live Speech Transcript <span class="font-normal lowercase text-slate-400">(editable if mic mishears a technical ag term)</span>
+                        </label>
+                        <div class="flex items-center gap-3 text-xs text-slate-500">
+                            <span>Words: <strong id="live-word-count" class="text-slate-800">0</strong></span>
+                            <button type="button" onclick="clearCurrentTranscript()" class="text-slate-400 hover:text-rose-600 underline">Clear</button>
+                        </div>
+                    </div>
+                    <textarea id="answer-transcript" rows="5" oninput="updateLiveWordCount()"
+                        placeholder="Press 'Start Speaking Answer' above and speak into your microphone—your words will appear here in real time. You may also type your response directly..."
+                        class="w-full p-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-ffa-navy focus:border-ffa-navy text-sm sm:text-base text-slate-800 leading-relaxed transition"></textarea>
+                </div>
+
+                <!-- Navigation / Submit Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div class="text-xs text-slate-500 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb text-ffa-gold"></i>
+                        <span>Tip: Connect your answer to your SAE, FFA leadership, or ag coursework.</span>
+                    </div>
+
+                    <button onclick="submitAnswerAndNext()" id="btn-submit-answer"
+                        class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-ffa-gold hover:bg-ffa-goldHover text-ffa-navy font-display font-extrabold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2">
+                        <span id="submit-btn-label">Submit Answer & Next Question</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================== -->
+        <!-- SCREEN 3: LOADING / AI RUBRIC EVALUATION TRANSITION                   -->
+        <!-- ===================================================================== -->
+        <section id="screen-evaluating" class="hidden py-16">
+            <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200 p-8 text-center space-y-5">
+                <div class="w-16 h-16 rounded-2xl bg-ffa-navy text-ffa-gold flex items-center justify-center text-3xl mx-auto shadow-md animate-bounce">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+                <h2 class="font-display text-2xl font-extrabold text-ffa-navy">
+                    Judges Are Tabulating Your Official Score Sheet...
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Evaluating your responses against the <strong>California FFA Job Interview CDE Rubric</strong> (Knowledge of Position, Presentation & Communication, and Response to Questions) and generating tailored model answers for your selected 2026–2027 employer.
+                </p>
+                <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden max-w-sm mx-auto">
+                    <div class="bg-ffa-gold h-2.5 rounded-full animate-pulse w-full"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================== -->
+        <!-- SCREEN 4: OFFICIAL CALIFORNIA FFA SCORECARD & AI COACHING REPORT      -->
+        <!-- ===================================================================== -->
+        <section id="screen-results" class="hidden space-y-6">
+            <!-- Top Scorecard Banner -->
+            <div class="bg-gradient-to-r from-ffa-navyDark via-ffa-navy to-ffa-navyLight rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 bg-ffa-gold text-ffa-navy text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+                            <i class="fa-solid fa-award"></i> Official Oral Interview Evaluation
+                        </div>
+                        <h2 class="font-display text-2xl sm:text-3xl font-extrabold">
+                            Contestant Scorecard: <span id="res-student-name" class="text-ffa-gold">FFA Member</span>
+                        </h2>
+                        <p id="res-job-summary" class="text-sm text-blue-100">
+                            Position: Agricultural Sales & Customer Service Assistant — Pan American Seed
+                        </p>
+                        <p id="res-overall-summary" class="text-sm text-white/90 pt-2 leading-relaxed border-t border-white/15">
+                            Loading judge consensus summary...
+                        </p>
+                    </div>
+
+                    <!-- 60-Point Oral Score Box -->
+                    <div class="bg-white/10 backdrop-blur-sm border-2 border-ffa-gold rounded-2xl p-5 text-center shrink-0 min-w-[220px]">
+                        <div class="text-xs font-bold uppercase tracking-wider text-ffa-gold mb-1">Oral Interview Score</div>
+                        <div class="font-display text-5xl font-extrabold text-white">
+                            <span id="res-total-score">--</span><span class="text-2xl text-blue-200 font-semibold">/60</span>
+                        </div>
+                        <div id="res-rating-tier" class="mt-2 inline-block text-xs font-bold px-3 py-1 rounded-full bg-ffa-gold text-ffa-navy">
+                            State Finalist Caliber
+                        </div>
+                        <p class="text-[11px] text-blue-200 mt-2">
+                            *Note: Letter of Intro (20 pts) & Resume (20 pts) complete the 100-pt CDE sheet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Official Rubric Category Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category 1: Knowledge of Position (10 pts) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-ffa-navy bg-blue-50 px-2.5 py-1 rounded">Rubric Area 1</span>
+                            <span class="font-display font-extrabold text-xl text-ffa-navy"><span id="res-knowledge-score">-</span>/10</span>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-1">Knowledge of Position</h3>
+                        <p class="text-xs text-slate-500 mb-3">Industry knowledge, employer specifics, agricultural procedures & technical terminology.</p>
+                        <div class="w-full bg-slate-100 rounded-full h-2 mb-4">
+                            <div id="bar-knowledge" class="bg-ffa-navy h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p id="res-knowledge-feedback" class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 leading-relaxed">
+                        Evaluating industry knowledge...
+                    </p>
+                </div>
+
+                <!-- Category 2: Presentation & Communication (20 pts) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-ffa-navy bg-blue-50 px-2.5 py-1 rounded">Rubric Area 2</span>
+                            <span class="font-display font-extrabold text-xl text-ffa-navy"><span id="res-presentation-score">-</span>/20</span>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-1">Presentation & Communication</h3>
+                        <p class="text-xs text-slate-500 mb-3">Vocal clarity, directness, confidence, concise articulation & avoidance of filler words.</p>
+                        <div class="w-full bg-slate-100 rounded-full h-2 mb-4">
+                            <div id="bar-presentation" class="bg-ffa-gold h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p id="res-presentation-feedback" class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 leading-relaxed">
+                        Evaluating communication style...
+                    </p>
+                </div>
+
+                <!-- Category 3: Response to Questions (30 pts) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-ffa-navy bg-blue-50 px-2.5 py-1 rounded">Rubric Area 3</span>
+                            <span class="font-display font-extrabold text-xl text-ffa-navy"><span id="res-response-score">-</span>/30</span>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-1">Response to Questions</h3>
+                        <p class="text-xs text-slate-500 mb-3">Logical development, critical thinking, SAE/FFA experience connection & etiquette.</p>
+                        <div class="w-full bg-slate-100 rounded-full h-2 mb-4">
+                            <div id="bar-response" class="bg-emerald-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p id="res-response-feedback" class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 leading-relaxed">
+                        Evaluating response quality...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Speech Analytics & Official Dress Reminder Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Filler Word & Pace Analytics (7 cols) -->
+                <div class="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+                    <h3 class="font-display font-bold text-lg text-ffa-navy mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-simple text-ffa-gold"></i>
+                        <span>Vocal Delivery & Filler Word Analytics</span>
+                    </h3>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-center">
+                            <div class="text-xs text-slate-500 font-medium">Total Time</div>
+                            <div id="stat-total-time" class="font-display font-extrabold text-xl text-ffa-navy mt-1">0:00</div>
+                            <div class="text-[11px] text-slate-400">Max 10:00</div>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-center">
+                            <div class="text-xs text-slate-500 font-medium">Avg Words / Q</div>
+                            <div id="stat-avg-words" class="font-display font-extrabold text-xl text-ffa-navy mt-1">0</div>
+                            <div class="text-[11px] text-slate-400">Target: 45–95</div>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-center">
+                            <div class="text-xs text-slate-500 font-medium">Filler Words</div>
+                            <div id="stat-filler-count" class="font-display font-extrabold text-xl text-rose-600 mt-1">0</div>
+                            <div class="text-[11px] text-slate-400">"um, uh, like..."</div>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-center">
+                            <div class="text-xs text-slate-500 font-medium">Questions Answered</div>
+                            <div id="stat-q-answered" class="font-display font-extrabold text-xl text-emerald-700 mt-1">0</div>
+                            <div class="text-[11px] text-slate-400">Completed</div>
+                        </div>
+                    </div>
+
+                    <div id="filler-breakdown-box" class="text-xs text-slate-600 bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5">
+                        <!-- Populated dynamically with specific filler word counts -->
+                    </div>
+                </div>
+
+                <!-- In-Person Contest Checklist (5 cols) -->
+                <div class="lg:col-span-5 bg-ffa-goldLight/60 rounded-2xl border border-ffa-gold/50 p-6">
+                    <h3 class="font-display font-bold text-base text-ffa-navy mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user-check text-ffa-navy"></i>
+                        <span>Contest-Day Physical Presence Checklist</span>
+                    </h3>
+                    <p class="text-xs text-slate-600 mb-3">
+                        Because audio alone cannot see your posture, verify these California FFA rubric standards before competition:
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-square-check text-ffa-navy mt-0.5"></i>
+                            <span><strong>Official FFA Dress Uniform:</strong> Properly zipped jacket, official tie/scarf, black slacks/skirt, polished black shoes.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-square-check text-ffa-navy mt-0.5"></i>
+                            <span><strong>No Materials Allowed:</strong> Do not bring notes, portfolios, or extra resume copies into the room.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-square-check text-ffa-navy mt-0.5"></i>
+                            <span><strong>3-Judge Eye Contact:</strong> Address the judge who asked the question, then naturally scan all 3 panelists.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-square-check text-ffa-navy mt-0.5"></i>
+                            <span><strong>Poise & Handshake:</strong> Offer a firm handshake, wait to be invited to sit, and thank the panel upon exiting.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question-by-Question Coaching Breakdown -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-5 pb-3 border-b border-slate-100">
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-ffa-navy">Question-by-Question Coaching & Model Answers</h3>
+                        <p class="text-xs text-slate-500">Compare your exact spoken response with individualized judge feedback and a state-winning FFA example.</p>
+                    </div>
+                </div>
+
+                <div id="question-breakdown-list" class="space-y-6">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Action Footer Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2 pb-8">
+                <button onclick="retrySameRole()" class="px-6 py-3.5 rounded-xl bg-ffa-navy hover:bg-ffa-navyLight text-white font-display font-bold text-sm sm:text-base shadow-md transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Practice Same Role Again (New Questions)</span>
+                </button>
+                <button onclick="returnToSetupDirect()" class="px-6 py-3.5 rounded-xl bg-ffa-gold hover:bg-ffa-goldHover text-ffa-navy font-display font-extrabold text-sm sm:text-base shadow-md transition flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Choose Another 2026–2027 Career Area</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+            <div>
+                Aligned with <strong>California Association FFA Employment Skills (Job Interview) CDE</strong> (Revised 6/2025 & 2026–2027 Job Descriptions).
+            </div>
+            <div>
+                For educational practice only — do not contact listed employers directly.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT APPLICATION LOGIC & GEMINI API INTEGRATION                     -->
+    <!-- ========================================================================= -->
+    <script>
+        // -------------------------------------------------------------------------
+        // 1. OFFICIAL 2026-2027 CALIFORNIA FFA JOB DESCRIPTIONS & SAMPLE QUESTIONS
+        // -------------------------------------------------------------------------
+        const FFA_JOBS_2026_2027 = {
+            ag_business: {
+                id: 'ag_business',
+                area: 'Agriculture Business Management',
+                title: 'Agricultural Sales & Customer Service Assistant',
+                employer: 'Pan American Seed',
+                location: '335 S. Briggs Road, Santa Paula, CA 93060',
+                contactName: 'Emily Ramirez',
+                contactTitle: 'Human Resources Manager',
+                website: 'https://www.panamseed.com',
+                description: 'Pan American Seed is seeking an entry-level Agricultural Sales & Customer Service Assistant to support customers, sales representatives, and internal agricultural operations. The employee will assist with customer orders, provide product information, inventory records, shipping documentation, communication with growers and agricultural businesses, assist sales representatives with customer follow-up, and provide customer service by phone, email and in person.',
+                skills: ['Customer Service', 'Order & Inventory Records', 'Shipping Documentation', 'Grower Relations', 'Sales Follow-Up', 'Horticulture/Seed Knowledge', 'Professional Communication'],
+                fallbackRoleQuestions: [
+                    "Pan American Seed works closely with commercial growers and agricultural businesses. How would you handle a situation where a grower calls upset about a delayed seed shipment?",
+                    "Accuracy in inventory records and shipping documentation is vital in agricultural sales. Tell me about a time your attention to detail prevented a mistake.",
+                    "In this role at Pan American Seed in Santa Paula, you will communicate with customers by phone, email, and in person. Which communication channel do you find most challenging and how do you ensure clarity?"
+                ]
+            },
+            ag_mechanics: {
+                id: 'ag_mechanics',
+                area: 'Agriculture Mechanics',
+                title: 'Agricultural Equipment Technician Trainee',
+                employer: 'Pape’ Machinery',
+                location: '1751 CA-99, Gridley, CA 95948',
+                contactName: 'Ryan Cooper',
+                contactTitle: 'Service Department Manager',
+                website: 'https://agriculture.papemachinery.com',
+                description: "Pape' Machinery is seeking an entry-level Agricultural Equipment Technician Trainee to assist experienced technicians in maintaining and repairing agricultural equipment. This position provides an opportunity to develop skills in diesel engines, hydraulics, electrical systems, welding, preventive maintenance, and agricultural machinery. Duties will also include maintaining accurate service records, following shop safety procedures, organizing tools and equipment, and preparing equipment for delivery to customers.",
+                skills: ['Diesel Engines', 'Hydraulics & Electrical Systems', 'Welding & Fabrication', 'Preventive Maintenance', 'Shop Safety Procedures', 'Accurate Service Records', 'Equipment Delivery Prep'],
+                fallbackRoleQuestions: [
+                    "At Pape' Machinery in Gridley, shop safety is our number one priority around diesel engines, hydraulics, and welding equipment. Describe a specific safety habit you practice in an agricultural mechanics shop.",
+                    "As an Agricultural Equipment Technician Trainee, you will assist senior technicians and maintain accurate service records. Why are detailed repair logs so important to both the dealership and the farmer?",
+                    "What hands-on experience do you have with preventive maintenance, welding, or diagnosing electrical and hydraulic systems on agricultural machinery?"
+                ]
+            },
+            animal_science: {
+                id: 'animal_science',
+                area: 'Animal Science',
+                title: 'Dairy Operations Assistant',
+                employer: 'Hilmar Cheese Company',
+                location: '8901 Lander Avenue, Hilmar, CA 95324',
+                contactName: 'Morgan Davis',
+                contactTitle: 'Dairy Relations Coordinator',
+                website: 'https://www.hilmar.com/',
+                description: "Hilmar Cheese Company is seeking an entry-level Dairy Operations Assistant to support activities related to milk procurement, dairy producer relations, quality, and agricultural operations. The employee will work with dairy producers and company personnel to help maintain accurate records and support the company's supply of high-quality milk. Duties may include assisting with maintenance of dairy producer records, entering and reviewing milk quality & production data, assisting with scheduled dairy visits and collecting documentation, organizing reports and production records, and following company food safety and biosecurity procedures.",
+                skills: ['Milk Quality & Production Data', 'Dairy Producer Relations', 'Biosecurity Protocols', 'Food Safety Compliance', 'Milk Procurement Records', 'Data Entry & Reporting', 'Livestock/Dairy Knowledge'],
+                fallbackRoleQuestions: [
+                    "When visiting local dairies on behalf of Hilmar Cheese Company, why is strictly following biosecurity and food safety procedures non-negotiable?",
+                    "This role requires reviewing milk quality and production data while working alongside dairy producers. How would you build trust with a longtime California dairy farmer when collecting documentation?",
+                    "Tell me about your background in Animal Science or dairy production, and how your record-keeping experience prepares you for this position in Hilmar."
+                ]
+            },
+            floriculture: {
+                id: 'floriculture',
+                area: 'Floriculture',
+                title: 'Floriculture Production & Design Assistant',
+                employer: 'D’Lily’s Flower Shop',
+                location: '256 E. Lake Avenue, Watsonville, CA 95076',
+                contactName: 'Megan Frother',
+                contactTitle: 'Owner',
+                website: 'https://dlilysflowers.com',
+                description: 'D’Lily’s Flower Shop is seeking an entry-level Floral Design & Production Assistant to support the preparation and design of floral arrangements for everyday orders, weddings, special events, and sympathy services. The employee will work alongside experienced floral designers while developing skills in flower care, floral design, customer service, order preparation, and event work. Duties will include preparing and conditioning fresh flowers for arrangements; assisting designers in creating bouquets, centerpieces, and other designs; selecting appropriate flowers, foliage, colors, and containers for arrangements; preparing deliveries; assisting with wedding and event preparation and setup; maintain clean and organized work areas; and providing quality customer service.',
+                skills: ['Fresh Flower Conditioning', 'Bouquet & Centerpiece Design', 'Color & Foliage Selection', 'Wedding & Event Setup', 'Sympathy & Retail Orders', 'Workstation Sanitation', 'Customer Service'],
+                fallbackRoleQuestions: [
+                    "Properly processing and conditioning fresh cut flowers directly impacts vase life and customer satisfaction at D'Lily's Flower Shop. Walk me through the steps you take to condition fresh flowers upon arrival.",
+                    "Floral shops experience intense rushes during weddings, holidays, and sympathy orders. How do you stay organized and maintain a clean workspace under tight event deadlines?",
+                    "How do you balance following a customer's specific color and container requests while applying principles of floral design?"
+                ]
+            },
+            forestry: {
+                id: 'forestry',
+                area: 'Forestry & Natural Resources',
+                title: 'Forestry Technician',
+                employer: 'Trinity River Lumber Company',
+                location: '1375 Main Street, Weaverville, CA 96093',
+                contactName: 'Casey Williams',
+                contactTitle: 'Forestry Operations Coordinator',
+                website: 'https://www.trinityriverlumbercompany.com',
+                description: 'Trinity River Lumber Company is seeking an entry-level Forestry Technician to assist with forest management, timber operations, vegetation management, and natural-resource projects. The employee will work outdoors and gain experience collecting field information, identifying trees and vegetation, maintaining forest roads and work areas, assisting with vegetation management projects, maintaining tools and field equipment, following environmental and workplace safety requirements, and supporting forestry crews.',
+                skills: ['Dendrology & Tree Identification', 'Timber & Vegetation Management', 'Field Data Collection', 'Forest Road Maintenance', 'Environmental & PPE Safety', 'Field Tool Maintenance', 'Outdoor Crew Teamwork'],
+                fallbackRoleQuestions: [
+                    "Working outdoors in Trinity County for Trinity River Lumber Company involves rugged terrain and changing weather. Describe your experience working outdoors and maintaining field tools and safety gear.",
+                    "Why is accurate tree and vegetation identification critical when collecting field data for timber and vegetation management projects?",
+                    "How do sustainable timber operations and environmental stewardship work together in California forestry?"
+                ]
+            },
+            ornamental_hort: {
+                id: 'ornamental_hort',
+                area: 'Ornamental Horticulture',
+                title: 'Nursery Production Assistant',
+                employer: 'Boething Treeland Farms',
+                location: '4397 Hitch Boulevard, Moorpark, CA 93021',
+                contactName: 'Alexandra Flores',
+                contactTitle: 'Nursery Production Supervisor',
+                website: 'https://www.boethingtreeland.com/',
+                description: 'Boething Treeland Farms is seeking an entry-level Nursery Production Assistant to support the production, maintenance, and preparation of ornamental trees and shrubs at this wholesale nursery operation. The employee will work as part of a nursery production team and will perform tasks including plant identification, irrigation, fertilizing, pruning, pest monitoring, plant movement, and preparing customer orders.',
+                skills: ['Ornamental Plant ID', 'Irrigation & Fertilization', 'Structural Pruning', 'Integrated Pest Monitoring', 'Wholesale Order Pulling', 'Nursery Stock Handling', 'Team Production'],
+                fallbackRoleQuestions: [
+                    "At a large wholesale nursery like Boething Treeland Farms in Moorpark, early pest monitoring and proper irrigation are essential. What signs of plant stress or pest damage do you look for during daily inspections?",
+                    "Pruning ornamental trees and shrubs requires both technique and consistency across a wholesale crop. Tell me about your hands-on experience with pruning, fertilizing, or plant propagation.",
+                    "Preparing wholesale customer orders involves moving heavy container plants accurately and safely. How do you ensure both plant quality and personal safety during order fulfillment?"
+                ]
+            },
+            plant_soil: {
+                id: 'plant_soil',
+                area: 'Plant and Soil Science',
+                title: 'Agricultural Laboratory Technician',
+                employer: 'Safe Food Alliance',
+                location: '2037 Morgan Drive, Kingsburg, CA 93631',
+                contactName: 'Jordan Mitchell',
+                contactTitle: 'Laboratory Supervisor',
+                website: 'https://safefoodalliance.com/',
+                description: 'Safe Food Alliance is seeking an entry-level Agricultural Laboratory Technician to assist with the testing and evaluation of agricultural commodities. The employee will collect and prepare samples, perform basic laboratory procedures, examine samples, maintain accurate records, assist laboratory staff in evaluating agricultural products, operate basic laboratory equipment, and assist with quality-control documentation.',
+                skills: ['Sample Collection & Prep', 'Laboratory Equipment Operation', 'Quality-Control Documentation', 'Commodity Evaluation', 'Aseptic/Lab Safety Protocols', 'Data Accuracy', 'Scientific Observation'],
+                fallbackRoleQuestions: [
+                    "At Safe Food Alliance in Kingsburg, our testing protects the integrity of California agricultural commodities. Why is preventing cross-contamination during sample collection and preparation so critical?",
+                    "Laboratory technicians must follow strict Standard Operating Procedures and maintain exact quality-control records. Tell me about a time you followed a precise scientific or technical procedure.",
+                    "What would you do if you noticed an unusual reading or potential error while operating laboratory equipment or logging commodity sample data?"
+                ]
+            }
+        };
+
+        // Official 20 California FFA Sample Interview Questions from Notebook Source
+        const OFFICIAL_FFA_SAMPLE_QUESTIONS = [
+            "Tell me about yourself.",
+            "Why are you interested in this position?",
+            "What do you know about our company?",
+            "Why should we hire you?",
+            "What are your strengths?",
+            "What is one weakness you’re working on?",
+            "How has your education prepared you for this role?",
+            "Tell me about a project or assignment you’re proud of.",
+            "What relevant experience do you have through work, internships, or volunteering?",
+            "Have you ever had a leadership role? What did you learn?",
+            "How do you handle deadlines or pressure?",
+            "Describe a time you had to solve a problem.",
+            "What motivates you to do your best work?",
+            "Describe a time you had a conflict with a teammate.",
+            "Do you prefer working independently or on a team? Why?",
+            "What would you do if you didn’t understand a task?",
+            "How would you handle multiple responsibilities at once?",
+            "Describe a time you stepped outside your comfort zone.",
+            "What are your career goals?",
+            "What would previous teachers or supervisors say about you?"
+        ];
+
+        // -------------------------------------------------------------------------
+        // 2. APPLICATION STATE
+        // -------------------------------------------------------------------------
+        let appState = {
+            studentName: '',
+            selectedJobKey: 'ag_business',
+            roundLength: 8,
+            ttsEnabled: true,
+            sttEnabled: true,
+            autoListen: false,
+            questions: [], // Array of { text, category, judgeIndex }
+            currentQuestionIndex: 0,
+            responses: [], // Array of { question, category, judgeName, answerText, durationSec, wordCount, fillerCount }
+            contestSecondsRemaining: 600, // Official 10 minutes = 600 seconds
+            questionSecondsElapsed: 0,
+            contestTimerInterval: null,
+            questionTimerInterval: null,
+            isListening: false,
+            isSpeaking: false,
+            recognition: null,
+            finalTranscriptBuffer: '',
+            currentAudioElement: null
+        };
+
+        // -------------------------------------------------------------------------
+        // 3. INITIALIZATION & UI HELPERS
+        // -------------------------------------------------------------------------
+        window.onload = function () {
+            updateJobPreview();
+            initSpeechRecognition();
+        };
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const colors = {
+                info: 'bg-ffa-navy text-white border-ffa-gold',
+                success: 'bg-emerald-800 text-white border-emerald-400',
+                warning: 'bg-amber-800 text-white border-amber-400',
+                error: 'bg-rose-800 text-white border-rose-400'
+            };
+            const icons = {
+                info: 'fa-circle-info text-ffa-gold',
+                success: 'fa-circle-check text-emerald-300',
+                warning: 'fa-triangle-exclamation text-amber-300',
+                error: 'fa-circle-exclamation text-rose-300'
+            };
+
+            toast.className = `pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-xl shadow-xl border-l-4 text-xs sm:text-sm ${colors[type] || colors.info} transition-all duration-300`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} mt-0.5 text-base"></i>
+                <div class="flex-1 leading-snug">${message}</div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        }
+
+        function openCustomModal(title, message, onConfirmCallback) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+            confirmBtn.onclick = () => {
+                closeCustomModal();
+                onConfirmCallback();
+            };
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCustomModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function updateJobPreview() {
+            const selectEl = document.getElementById('career-select');
+            const jobKey = selectEl.value;
+            appState.selectedJobKey = jobKey;
+            const job = FFA_JOBS_2026_2027[jobKey];
+
+            document.getElementById('job-area-badge').textContent = job.area;
+            document.getElementById('job-title-preview').textContent = job.title;
+            document.getElementById('job-employer-preview').textContent = job.employer;
+            document.getElementById('job-location-preview').textContent = job.location;
+            document.getElementById('job-contact-preview').textContent = `${job.contactName}, ${job.contactTitle}`;
+            document.getElementById('job-website-preview').textContent = job.website;
+            document.getElementById('job-desc-preview').textContent = job.description;
+
+            const skillsContainer = document.getElementById('job-skills-preview');
+            skillsContainer.innerHTML = job.skills.map(skill =>
+                `<span class="text-xs font-semibold bg-blue-50 text-ffa-navy border border-blue-200 px-2.5 py-1 rounded-lg">${skill}</span>`
+            ).join('');
+        }
+
+        // -------------------------------------------------------------------------
+        // 4. SPEECH-TO-TEXT (WEB SPEECH API) & MICROPHONE PERMISSIONS
+        // -------------------------------------------------------------------------
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                console.warn("SpeechRecognition API not supported in this browser.");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                appState.isListening = true;
+                updateMicUI(true);
+            };
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const transcriptPiece = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        appState.finalTranscriptBuffer += (appState.finalTranscriptBuffer ? ' ' : '') + transcriptPiece.trim();
+                    } else {
+                        interimTranscript += transcriptPiece;
+                    }
+                }
+
+                const textarea = document.getElementById('answer-transcript');
+                const combined = appState.finalTranscriptBuffer + (interimTranscript ? ' ' + interimTranscript : '');
+                textarea.value = combined.trim();
+                document.getElementById('live-interim-badge').textContent = interimTranscript ? `"${interimTranscript}"` : '';
+                updateLiveWordCount();
+            };
+
+            recognition.onerror = (event) => {
+                console.warn("SpeechRecognition error:", event.error);
+                if (event.error === 'not-allowed') {
+                    showToast("Microphone access denied. Please allow microphone permissions in your browser address bar, or type your response.", "warning");
+                    stopSpeechRecognition();
+                } else if (event.error === 'no-speech') {
+                    // Keep listening silently if user pauses to think
+                } else {
+                    stopSpeechRecognition();
+                }
+            };
+
+            recognition.onend = () => {
+                // If user hasn't explicitly clicked stop, restart automatically for seamless continuous speaking
+                if (appState.isListening) {
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        appState.isListening = false;
+                        updateMicUI(false);
+                    }
+                } else {
+                    updateMicUI(false);
+                }
+            };
+
+            appState.recognition = recognition;
+        }
+
+        async function testMicrophonePermission() {
+            const btn = document.getElementById('btn-test-mic');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(track => track.stop());
+                btn.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i> Mic Ready!';
+                btn.classList.add('border-emerald-400', 'bg-emerald-50');
+                showToast("Microphone verified and ready for your interview!", "success");
+            } catch (err) {
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Mic Blocked';
+                showToast("Could not access microphone. Check browser permissions or use the built-in text box during the interview.", "warning");
+            }
+        }
+
+        function toggleSpeechRecognition() {
+            if (appState.isListening) {
+                stopSpeechRecognition();
+            } else {
+                startSpeechRecognition();
+            }
+        }
+
+        function startSpeechRecognition() {
+            if (!appState.sttEnabled) {
+                showToast("Speech-to-Text is disabled in settings. Type your answer in the text box below.", "info");
+                return;
+            }
+            if (!appState.recognition) {
+                showToast("Voice dictation isn't supported in this browser. Please type your response in the box below.", "warning");
+                document.getElementById('answer-transcript').focus();
+                return;
+            }
+
+            // Stop judge TTS if currently speaking so mic doesn't pick up judge voice
+            stopAllJudgeAudio();
+
+            // Sync buffer with whatever user may have manually edited
+            appState.finalTranscriptBuffer = document.getElementById('answer-transcript').value.trim();
+
+            try {
+                appState.isListening = true;
+                appState.recognition.start();
+            } catch (e) {
+                console.warn("Recognition already started:", e);
+            }
+        }
+
+        function stopSpeechRecognition() {
+            appState.isListening = false;
+            if (appState.recognition) {
+                try {
+                    appState.recognition.stop();
+                } catch (e) {}
+            }
+            updateMicUI(false);
+        }
+
+        function updateMicUI(listening) {
+            const btn = document.getElementById('btn-mic-toggle');
+            const icon = document.getElementById('mic-btn-icon');
+            const text = document.getElementById('mic-btn-text');
+            const ring = document.getElementById('mic-pulse-ring');
+            const statusBar = document.getElementById('recording-status-bar');
+
+            if (listening) {
+                btn.classList.remove('bg-ffa-navy', 'hover:bg-ffa-navyLight');
+                btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+                icon.className = 'fa-solid fa-stop text-base';
+                text.textContent = 'Stop Recording';
+                ring.classList.remove('hidden');
+                statusBar.classList.remove('hidden');
+                statusBar.classList.add('flex');
+            } else {
+                btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+                btn.classList.add('bg-ffa-navy', 'hover:bg-ffa-navyLight');
+                icon.className = 'fa-solid fa-microphone text-base';
+                text.textContent = 'Start Speaking Answer';
+                ring.classList.add('hidden');
+                statusBar.classList.add('hidden');
+                statusBar.classList.remove('flex');
+            }
+        }
+
+        function clearCurrentTranscript() {
+            appState.finalTranscriptBuffer = '';
+            document.getElementById('answer-transcript').value = '';
+            document.getElementById('live-interim-badge').textContent = '';
+            updateLiveWordCount();
+        }
+
+        function updateLiveWordCount() {
+            const text = document.getElementById('answer-transcript').value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            document.getElementById('live-word-count').textContent = words;
+        }
+
+        // -------------------------------------------------------------------------
+        // 5. JUDGE TEXT-TO-SPEECH (GEMINI TTS WITH BROWSER SPEECHSYNTHESIS FALLBACK)
+        // -------------------------------------------------------------------------
+        function stopAllJudgeAudio() {
+            if (appState.currentAudioElement) {
+                appState.currentAudioElement.pause();
+                appState.currentAudioElement = null;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            setJudgeSpeakingVisuals(false);
+        }
+
+        function setJudgeSpeakingVisuals(speaking, judgeIndex = 0) {
+            appState.isSpeaking = speaking;
+            const indicator = document.getElementById('judge-speaking-indicator');
+            const cards = document.querySelectorAll('.judge-card');
+
+            cards.forEach((card, idx) => {
+                card.classList.remove('border-ffa-gold', 'bg-white/20', 'shadow-lg');
+                card.classList.add('border-transparent', 'bg-white/10');
+            });
+
+            if (speaking) {
+                indicator.classList.remove('hidden');
+                indicator.classList.add('flex');
+                if (cards[judgeIndex]) {
+                    cards[judgeIndex].classList.remove('border-transparent', 'bg-white/10');
+                    cards[judgeIndex].classList.add('border-ffa-gold', 'bg-white/20', 'shadow-lg');
+                }
+            } else {
+                indicator.classList.add('hidden');
+                indicator.classList.remove('flex');
+                // Keep subtle highlight on active question's judge
+                if (cards[judgeIndex]) {
+                    cards[judgeIndex].classList.remove('border-transparent');
+                    cards[judgeIndex].classList.add('border-ffa-gold/50');
+                }
+            }
+        }
+
+        // Convert raw PCM16 to WAV Blob for Gemini TTS playback
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            const dataSize = pcm16.length * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            function writeString(offset, str) {
+                for (let i = 0; i < str.length; i++) {
+                    view.setUint8(offset + i, str.charCodeAt(i));
+                }
+            }
+
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, dataSize, true);
+
+            let offset = 44;
+            for (let i = 0; i < pcm16.length; i++, offset += 2) {
+                view.setInt16(offset, pcm16[i], true);
+            }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        async function speakJudgeQuestion(text, judgeIndex) {
+            stopAllJudgeAudio();
+            if (!appState.ttsEnabled) return;
+
+            setJudgeSpeakingVisuals(true, judgeIndex);
+
+            const onSpeechFinished = () => {
+                setJudgeSpeakingVisuals(false, judgeIndex);
+                if (appState.autoListen && appState.sttEnabled && !appState.isListening) {
+                    startSpeechRecognition();
+                }
+            };
+
+            // Assign distinct voices to the 3 California FFA Judges
+            const judgeVoices = ['Kore', 'Charon', 'Aoede'];
+            const selectedVoice = judgeVoices[judgeIndex % judgeVoices.length];
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{
+                        parts: [{ text: `Say in a warm, professional agricultural industry job interviewer tone: ${text}` }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: selectedVoice }
+                            }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }, 1);
+
+                if (response && response.ok) {
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const rateMatch = mimeType.match(/rate=(\d+)/);
+                        const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const pcm16 = new Int16Array(pcmData);
+                        const wavBlob = pcmToWav(pcm16, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+
+                        const audio = new Audio(audioUrl);
+                        appState.currentAudioElement = audio;
+                        audio.onended = () => {
+                            URL.revokeObjectURL(audioUrl);
+                            onSpeechFinished();
+                        };
+                        audio.onerror = () => {
+                            fallbackBrowserTTS(text, judgeIndex, onSpeechFinished);
+                        };
+                        await audio.play();
+                        return;
+                    }
+                }
+            } catch (err) {
+                // Silent fallback to browser SpeechSynthesis
+            }
+
+            fallbackBrowserTTS(text, judgeIndex, onSpeechFinished);
+        }
+
+        function fallbackBrowserTTS(text, judgeIndex, onFinishedCallback) {
+            if (!('speechSynthesis' in window)) {
+                setJudgeSpeakingVisuals(false, judgeIndex);
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.98;
+            utterance.pitch = judgeIndex === 1 ? 0.92 : (judgeIndex === 2 ? 1.06 : 1.0);
+            utterance.onend = onFinishedCallback;
+            utterance.onerror = onFinishedCallback;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function replayCurrentQuestion() {
+            const q = appState.questions[appState.currentQuestionIndex];
+            if (q) {
+                speakJudgeQuestion(q.text, q.judgeIndex);
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 6. GEMINI API HELPER WITH EXPONENTIAL BACKOFF
+        // -------------------------------------------------------------------------
+        async function fetchWithBackoff(url, options, maxRetries = 3) {
+            let delay = 1000;
+            for (let attempt = 0; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) return response;
+                    if (response.status === 429 || response.status >= 500) {
+                        if (attempt === maxRetries) return response;
+                    } else {
+                        return response;
+                    }
+                } catch (err) {
+                    if (attempt === maxRetries) throw err;
+                }
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+            return null;
+        }
+
+        // Generate tailored role-specific questions via Gemini API and blend with Official 20 Sample Questions
+        async function buildInterviewQuestionSet(job, roundLength) {
+            const numRoleQuestions = roundLength === 5 ? 2 : (roundLength === 8 ? 3 : 4);
+            const numOfficialQuestions = roundLength - numRoleQuestions;
+
+            // Select opening question ("Tell me about yourself" or "Why are you interested...") + shuffled official FFA questions
+            const openingPool = OFFICIAL_FFA_SAMPLE_QUESTIONS.slice(0, 3);
+            const remainingPool = OFFICIAL_FFA_SAMPLE_QUESTIONS.slice(3).sort(() => Math.random() - 0.5);
+
+            const selectedOfficial = [
+                openingPool[0], // Always start warmly with "Tell me about yourself."
+                ...remainingPool.slice(0, numOfficialQuestions - 1)
+            ];
+
+            let roleQuestions = [];
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const prompt = `You are a California FFA Employment Skills (Job Interview) CDE industry judge interviewing a high school FFA contestant for the official 2026-2027 position:
+Career Area: ${job.area}
+Job Title: ${job.title}
+Employer: ${job.employer} (${job.location})
+Contact Person: ${job.contactName}, ${job.contactTitle}
+Job Description: ${job.description}
+
+Generate exactly ${numRoleQuestions} realistic, specific interview questions tailored to this exact employer, location, and job duties. Keep each question concise (1-2 sentences) so it sounds natural when spoken aloud by an industry judge.`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: { type: "STRING" }
+                        }
+                    }
+                };
+
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }, 2);
+
+                if (response && response.ok) {
+                    const data = await response.json();
+                    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (rawText) {
+                        const parsed = JSON.parse(rawText);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            roleQuestions = parsed.slice(0, numRoleQuestions);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn("Using curated role-specific fallback questions:", err);
+            }
+
+            if (roleQuestions.length < numRoleQuestions) {
+                roleQuestions = job.fallbackRoleQuestions.slice(0, numRoleQuestions);
+            }
+
+            // Interleave Official FFA Sample Questions and Tailored Employer Questions realistically
+            const combined = [];
+            let offIdx = 0;
+            let roleIdx = 0;
+
+            for (let i = 0; i < roundLength; i++) {
+                // Place role-specific questions at positions 2, 4, 6, 8...
+                if ((i % 2 === 1 && roleIdx < roleQuestions.length) || offIdx >= selectedOfficial.length) {
+                    combined.push({
+                        text: roleQuestions[roleIdx++],
+                        category: `${job.employer} Role-Specific`,
+                        judgeIndex: i % 3
+                    });
+                } else {
+                    combined.push({
+                        text: selectedOfficial[offIdx++],
+                        category: 'Official CA FFA Sample Bank',
+                        judgeIndex: i % 3
+                    });
+                }
+            }
+
+            return combined;
+        }
+
+        // -------------------------------------------------------------------------
+        // 7. INTERVIEW FLOW & TIMERS
+        // -------------------------------------------------------------------------
+        async function startInterviewSimulation() {
+            const btn = document.getElementById('btn-start-sim');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Preparing Interview Panel...</span>`;
+
+            appState.studentName = document.getElementById('student-name').value.trim();
+            appState.selectedJobKey = document.getElementById('career-select').value;
+            appState.roundLength = parseInt(document.querySelector('input[name="round-length"]:checked').value, 10);
+            appState.ttsEnabled = document.getElementById('toggle-tts').checked;
+            appState.sttEnabled = document.getElementById('toggle-stt').checked;
+            appState.autoListen = document.getElementById('toggle-autolisten').checked;
+
+            const job = FFA_JOBS_2026_2027[appState.selectedJobKey];
+
+            // Configure Judge 1 with actual 2026-2027 Contact Person
+            document.getElementById('judge-1-name').textContent = job.contactName;
+            document.getElementById('judge-1-title').textContent = job.contactTitle;
+            document.getElementById('stage-role-header').textContent = `Interviewing for: ${job.title} — ${job.employer} (${job.area})`;
+
+            // Build question set
+            appState.questions = await buildInterviewQuestionSet(job, appState.roundLength);
+            appState.currentQuestionIndex = 0;
+            appState.responses = [];
+            appState.contestSecondsRemaining = 600; // Official 10:00 maximum
+            appState.questionSecondsElapsed = 0;
+
+            // Switch screens
+            switchScreen('screen-interview');
+            document.getElementById('header-timer-badge').classList.remove('hidden');
+            document.getElementById('header-timer-badge').classList.add('flex');
+            document.getElementById('btn-header-reset').classList.remove('hidden');
+
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-door-open text-xl"></i> <span>Enter Interview Room & Begin</span>`;
+
+            startContestCountdown();
+            loadQuestionStage(0);
+        }
+
+        function switchScreen(targetId) {
+            ['screen-setup', 'screen-interview', 'screen-evaluating', 'screen-results'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startContestCountdown() {
+            clearInterval(appState.contestTimerInterval);
+            updateCountdownDisplay();
+
+            appState.contestTimerInterval = setInterval(() => {
+                appState.contestSecondsRemaining--;
+                updateCountdownDisplay();
+
+                if (appState.contestSecondsRemaining === 120) {
+                    showToast("2 minutes remaining on the official 10-minute California FFA interview clock.", "warning");
+                }
+                if (appState.contestSecondsRemaining <= 0) {
+                    clearInterval(appState.contestTimerInterval);
+                    showToast("Official 10-minute interview limit reached! Submitting round for judge scoring.", "warning");
+                    finishInterviewAndEvaluate();
+                }
+            }, 1000);
+        }
+
+        function updateCountdownDisplay() {
+            const mins = Math.floor(Math.max(0, appState.contestSecondsRemaining) / 60);
+            const secs = Math.max(0, appState.contestSecondsRemaining) % 60;
+            const formatted = `${mins}:${secs.toString().padStart(2, '0')}`;
+            const el = document.getElementById('header-countdown');
+            el.textContent = formatted;
+            if (appState.contestSecondsRemaining <= 120) {
+                el.classList.add('text-rose-400');
+            } else {
+                el.classList.remove('text-rose-400');
+            }
+        }
+
+        function startQuestionElapsedTimer() {
+            clearInterval(appState.questionTimerInterval);
+            appState.questionSecondsElapsed = 0;
+            document.getElementById('question-elapsed').textContent = '0:00';
+
+            appState.questionTimerInterval = setInterval(() => {
+                appState.questionSecondsElapsed++;
+                const mins = Math.floor(appState.questionSecondsElapsed / 60);
+                const secs = appState.questionSecondsElapsed % 60;
+                document.getElementById('question-elapsed').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function loadQuestionStage(index) {
+            stopSpeechRecognition();
+            stopAllJudgeAudio();
+
+            const q = appState.questions[index];
+            const total = appState.questions.length;
+            const job = FFA_JOBS_2026_2027[appState.selectedJobKey];
+
+            document.getElementById('q-current-num').textContent = index + 1;
+            document.getElementById('q-total-num').textContent = total;
+            document.getElementById('q-category-badge').textContent = q.category;
+
+            const progressPct = ((index + 1) / total) * 100;
+            document.getElementById('interview-progress-bar').style.width = `${progressPct}%`;
+
+            const judgeNames = [
+                `${job.contactName} (${job.contactTitle})`,
+                'David Vance (Operations Panelist)',
+                'Sarah Jenkins (Agribusiness Panelist)'
+            ];
+            document.getElementById('active-judge-label').innerHTML = `<i class="fa-solid fa-comment-dots text-ffa-gold"></i> ${judgeNames[q.judgeIndex]} Asks:`;
+
+            // Add personalized greeting on Question 1 if student entered their name
+            let spokenPrompt = q.text;
+            if (index === 0 && appState.studentName) {
+                spokenPrompt = `Welcome, ${appState.studentName}. Thank you for applying with ${job.employer}. To get us started: ${q.text}`;
+            }
+
+            document.getElementById('current-question-text').textContent = spokenPrompt;
+            clearCurrentTranscript();
+
+            const submitLabel = document.getElementById('submit-btn-label');
+            submitLabel.textContent = (index === total - 1)
+                ? 'Finish Interview & View Official Scorecard'
+                : 'Submit Answer & Next Question';
+
+            startQuestionElapsedTimer();
+            speakJudgeQuestion(spokenPrompt, q.judgeIndex);
+        }
+
+        function countFillerWords(text) {
+            if (!text) return { total: 0, breakdown: {} };
+            const lower = text.toLowerCase();
+            const patterns = [
+                { label: 'um', regex: /\bum+\b/g },
+                { label: 'uh', regex: /\buh+\b/g },
+                { label: 'like', regex: /\blike\b/g },
+                { label: 'you know', regex: /\byou know\b/g },
+                { label: 'basically', regex: /\bbasically\b/g },
+                { label: 'sort of / kind of', regex: /\b(sort of|kind of)\b/g }
+            ];
+
+            let total = 0;
+            const breakdown = {};
+            patterns.forEach(p => {
+                const matches = lower.match(p.regex);
+                if (matches && matches.length > 0) {
+                    breakdown[p.label] = matches.length;
+                    total += matches.length;
+                }
+            });
+            return { total, breakdown };
+        }
+
+        function submitAnswerAndNext() {
+            stopSpeechRecognition();
+            stopAllJudgeAudio();
+
+            const rawAnswer = document.getElementById('answer-transcript').value.trim();
+            const q = appState.questions[appState.currentQuestionIndex];
+            const job = FFA_JOBS_2026_2027[appState.selectedJobKey];
+            const judgeNames = [job.contactName, 'David Vance', 'Sarah Jenkins'];
+
+            const answerToSave = rawAnswer || "[No verbal or written response recorded for this question.]";
+            const words = rawAnswer ? rawAnswer.split(/\s+/).length : 0;
+            const fillerStats = countFillerWords(rawAnswer);
+
+            appState.responses.push({
+                question: q.text,
+                category: q.category,
+                judgeName: judgeNames[q.judgeIndex],
+                answerText: answerToSave,
+                isBlank: !rawAnswer,
+                durationSec: appState.questionSecondsElapsed,
+                wordCount: words,
+                fillerCount: fillerStats.total,
+                fillerBreakdown: fillerStats.breakdown
+            });
+
+            if (appState.currentQuestionIndex < appState.questions.length - 1) {
+                appState.currentQuestionIndex++;
+                loadQuestionStage(appState.currentQuestionIndex);
+            } else {
+                finishInterviewAndEvaluate();
+            }
+        }
+
+        function confirmEndEarly() {
+            openCustomModal(
+                "End Interview Round Early?",
+                "Your answered questions so far will be graded against the official California FFA Job Interview rubric. Any unanswered questions will be skipped.",
+                () => {
+                    // Save current question if user typed/spoke something before clicking End Early
+                    const currentText = document.getElementById('answer-transcript').value.trim();
+                    if (currentText) {
+                        const q = appState.questions[appState.currentQuestionIndex];
+                        const fillerStats = countFillerWords(currentText);
+                        appState.responses.push({
+                            question: q.text,
+                            category: q.category,
+                            judgeName: 'Panel Judge',
+                            answerText: currentText,
+                            isBlank: false,
+                            durationSec: appState.questionSecondsElapsed,
+                            wordCount: currentText.split(/\s+/).length,
+                            fillerCount: fillerStats.total,
+                            fillerBreakdown: fillerStats.breakdown
+                        });
+                    }
+                    finishInterviewAndEvaluate();
+                }
+            );
+        }
+
+        function confirmReturnToSetup() {
+            openCustomModal(
+                "Leave Current Interview?",
+                "Are you sure you want to exit this practice session and return to the career selection screen?",
+                () => {
+                    returnToSetupDirect();
+                }
+            );
+        }
+
+        function returnToSetupDirect() {
+            stopSpeechRecognition();
+            stopAllJudgeAudio();
+            clearInterval(appState.contestTimerInterval);
+            clearInterval(appState.questionTimerInterval);
+
+            document.getElementById('header-timer-badge').classList.add('hidden');
+            document.getElementById('header-timer-badge').classList.remove('flex');
+            document.getElementById('btn-header-reset').classList.add('hidden');
+
+            switchScreen('screen-setup');
+        }
+
+        function retrySameRole() {
+            startInterviewSimulation();
+        }
+
+        // -------------------------------------------------------------------------
+        // 8. END-OF-ROUND OFFICIAL CALIFORNIA FFA RUBRIC EVALUATION (GEMINI API)
+        // -------------------------------------------------------------------------
+        async function finishInterviewAndEvaluate() {
+            stopSpeechRecognition();
+            stopAllJudgeAudio();
+            clearInterval(appState.contestTimerInterval);
+            clearInterval(appState.questionTimerInterval);
+
+            document.getElementById('header-timer-badge').classList.add('hidden');
+            document.getElementById('header-timer-badge').classList.remove('flex');
+
+            if (appState.responses.length === 0) {
+                showToast("No responses were recorded. Returning to setup.", "warning");
+                returnToSetupDirect();
+                return;
+            }
+
+            switchScreen('screen-evaluating');
+
+            const job = FFA_JOBS_2026_2027[appState.selectedJobKey];
+            const evaluation = await generateRubricEvaluation(job, appState.responses);
+            renderResultsDashboard(job, evaluation);
+            switchScreen('screen-results');
+        }
+
+        async function generateRubricEvaluation(job, responses) {
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const transcriptSummary = responses.map((r, idx) =>
+                    `Q${idx + 1} (${r.category}): "${r.question}"\nStudent Spoken Response (${r.wordCount} words, ${r.fillerCount} filler words): "${r.answerText}"`
+                ).join('\n\n');
+
+                const systemPrompt = `You are an official California Association FFA Employment Skills (Job Interview) CDE Judge evaluating a high school FFA member's oral interview.
+Grade strictly using the 60-point Oral Interview portion of the Official California FFA Job Interview Rubric:
+1. Knowledge of Position (0-10 points): Industry knowledge, awareness of employer/job procedures, use of accurate agricultural terminology. (9-10 Excellent, 7-8 Good, 5-6 Fair, 1-4 Poor).
+2. Presentation & Communication (0-20 points): Vocal clarity, directness, confidence/poise, concise articulation, avoidance of filler words ("um", "like", "uh") and slang. (18-20 Excellent, 15-17 Good, 12-14 Fair, 0-11 Poor).
+3. Response to Questions (0-30 points): Logical development, critical thinking, relevance to the agricultural role, connecting to SAE/FFA/coursework/experience, professional etiquette. (27-30 Excellent, 21-26 Good, 15-20 Fair, 0-14 Poor).
+
+Be encouraging, constructive, and specific to California agriculture and FFA experiences. Provide a tailored Model FFA Top-Placing Answer for each question that references ${job.employer} and relevant ag skills.`;
+
+                const userPrompt = `Evaluate this student's interview for:
+Career Area: ${job.area}
+Job Title: ${job.title}
+Employer: ${job.employer} (${job.location})
+Hiring Manager: ${job.contactName}, ${job.contactTitle}
+Job Description: ${job.description}
+
+Interview Transcript:
+${transcriptSummary}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                knowledgeScore: { type: "INTEGER" },
+                                knowledgeFeedback: { type: "STRING" },
+                                presentationScore: { type: "INTEGER" },
+                                presentationFeedback: { type: "STRING" },
+                                responseScore: { type: "INTEGER" },
+                                responseFeedback: { type: "STRING" },
+                                overallSummary: { type: "STRING" },
+                                questionReviews: {
+                                    type: "ARRAY",
+                                    items: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            strengths: { type: "STRING" },
+                                            improvements: { type: "STRING" },
+                                            modelAnswer: { type: "STRING" }
+                                        },
+                                        required: ["strengths", "improvements", "modelAnswer"]
+                                    }
+                                }
+                            },
+                            required: [
+                                "knowledgeScore", "knowledgeFeedback",
+                                "presentationScore", "presentationFeedback",
+                                "responseScore", "responseFeedback",
+                                "overallSummary", "questionReviews"
+                            ]
+                        }
+                    }
+                };
+
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }, 2);
+
+                if (response && response.ok) {
+                    const data = await response.json();
+                    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text) {
+                        return JSON.parse(text);
+                    }
+                }
+            } catch (err) {
+                console.warn("Fallback rubric scoring triggered:", err);
+            }
+
+            // Deterministic rubric fallback if API is unreachable
+            return buildFallbackEvaluation(job, responses);
+        }
+
+        function buildFallbackEvaluation(job, responses) {
+            const answeredCount = responses.filter(r => !r.isBlank).length;
+            const ratio = answeredCount / responses.length;
+            const totalFillers = responses.reduce((acc, r) => acc + r.fillerCount, 0);
+            const avgWords = responses.reduce((acc, r) => acc + r.wordCount, 0) / responses.length;
+
+            const kScore = Math.max(2, Math.min(10, Math.round((avgWords > 35 ? 8 : 6) * ratio)));
+            const pScore = Math.max(4, Math.min(20, Math.round((totalFillers <= 3 ? 17 : 14) * ratio)));
+            const rScore = Math.max(6, Math.min(30, Math.round((avgWords > 45 ? 25 : 19) * ratio)));
+
+            return {
+                knowledgeScore: kScore,
+                knowledgeFeedback: `You demonstrated solid interest in ${job.area} and ${job.employer}. To earn a full 9–10 points at State Finals, weave more specific technical terms (${job.skills.slice(0, 3).join(', ')}) directly into your examples.`,
+                presentationScore: pScore,
+                presentationFeedback: `Your responses averaged ${Math.round(avgWords)} words with ${totalFillers} detected filler words. Focus on pausing silently to gather your thoughts instead of using filler words.`,
+                responseScore: rScore,
+                responseFeedback: `Good foundational structure. Strengthen your answers using the STAR method (Situation, Task, Action, Result) tied directly to your Supervised Agricultural Experience (SAE) and FFA leadership roles.`,
+                overallSummary: `Solid practice round for the ${job.title} position at ${job.employer}. Review the question-by-question model answers below to sharpen your industry vocabulary and concise storytelling.`,
+                questionReviews: responses.map(r => ({
+                    strengths: r.isBlank ? "Question attempted in simulation." : "Directly addressed the judge's prompt with sincere effort.",
+                    improvements: r.isBlank ? "Be sure to speak a complete 3–4 sentence response even on tough questions." : "Connect your answer more explicitly to your SAE, ag coursework, and the daily duties at " + job.employer + ".",
+                    modelAnswer: `Thank you for that question. Through my FFA Supervised Agricultural Experience and agriculture coursework, I have developed strong hands-on skills in ${job.skills[0]} and ${job.skills[1]}. At ${job.employer}, I would apply that same work ethic and attention to safety and detail to support ${job.contactName} and the entire team from day one.`
+                }))
+            };
+        }
+
+        function renderResultsDashboard(job, evalData) {
+            const kScore = Math.min(10, Math.max(0, evalData.knowledgeScore || 0));
+            const pScore = Math.min(20, Math.max(0, evalData.presentationScore || 0));
+            const rScore = Math.min(30, Math.max(0, evalData.responseScore || 0));
+            const totalOral = kScore + pScore + rScore;
+
+            document.getElementById('res-student-name').textContent = appState.studentName || 'California FFA Contestant';
+            document.getElementById('res-job-summary').textContent = `${job.area}: ${job.title} — ${job.employer} (${job.location})`;
+            document.getElementById('res-overall-summary').textContent = evalData.overallSummary;
+
+            document.getElementById('res-total-score').textContent = totalOral;
+
+            // Determine Rubric Tier Badge
+            const tierBadge = document.getElementById('res-rating-tier');
+            if (totalOral >= 53) {
+                tierBadge.textContent = 'State Finals Contender (Excellent)';
+                tierBadge.className = 'mt-2 inline-block text-xs font-extrabold px-3 py-1 rounded-full bg-ffa-gold text-ffa-navy';
+            } else if (totalOral >= 43) {
+                tierBadge.textContent = 'Regional Qualifier Caliber (Good)';
+                tierBadge.className = 'mt-2 inline-block text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-400 text-slate-900';
+            } else if (totalOral >= 32) {
+                tierBadge.textContent = 'Sectional Contender (Fair)';
+                tierBadge.className = 'mt-2 inline-block text-xs font-extrabold px-3 py-1 rounded-full bg-blue-200 text-ffa-navy';
+            } else {
+                tierBadge.textContent = 'Developing — Keep Practicing!';
+                tierBadge.className = 'mt-2 inline-block text-xs font-extrabold px-3 py-1 rounded-full bg-white text-ffa-navy';
+            }
+
+            // Populate 3 Category Cards
+            document.getElementById('res-knowledge-score').textContent = kScore;
+            document.getElementById('bar-knowledge').style.width = `${(kScore / 10) * 100}%`;
+            document.getElementById('res-knowledge-feedback').textContent = evalData.knowledgeFeedback;
+
+            document.getElementById('res-presentation-score').textContent = pScore;
+            document.getElementById('bar-presentation').style.width = `${(pScore / 20) * 100}%`;
+            document.getElementById('res-presentation-feedback').textContent = evalData.presentationFeedback;
+
+            document.getElementById('res-response-score').textContent = rScore;
+            document.getElementById('bar-response').style.width = `${(rScore / 30) * 100}%`;
+            document.getElementById('res-response-feedback').textContent = evalData.responseFeedback;
+
+            // Populate Speech Analytics
+            const totalSec = appState.responses.reduce((acc, r) => acc + r.durationSec, 0);
+            const totalWords = appState.responses.reduce((acc, r) => acc + r.wordCount, 0);
+            const totalFillers = appState.responses.reduce((acc, r) => acc + r.fillerCount, 0);
+            const avgWords = appState.responses.length ? Math.round(totalWords / appState.responses.length) : 0;
+
+            const mins = Math.floor(totalSec / 60);
+            const secs = totalSec % 60;
+            document.getElementById('stat-total-time').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('stat-avg-words').textContent = avgWords;
+            document.getElementById('stat-filler-count').textContent = totalFillers;
+            document.getElementById('stat-q-answered').textContent = `${appState.responses.length}/${appState.questions.length}`;
+
+            // Aggregate filler word breakdown
+            const combinedFillers = {};
+            appState.responses.forEach(r => {
+                Object.entries(r.fillerBreakdown || {}).forEach(([word, count]) => {
+                    combinedFillers[word] = (combinedFillers[word] || 0) + count;
+                });
+            });
+
+            const fillerBox = document.getElementById('filler-breakdown-box');
+            const fillerEntries = Object.entries(combinedFillers);
+            if (fillerEntries.length === 0) {
+                fillerBox.innerHTML = `<strong class="text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i> Zero Filler Words Detected!</strong> Outstanding vocal polish—California FFA judges award top Presentation points when contestants avoid "um," "uh," and "like."`;
+            } else {
+                const listStr = fillerEntries.map(([w, c]) => `<span class="font-bold text-rose-700">"${w}" (${c}x)</span>`).join(', ');
+                fillerBox.innerHTML = `<strong>Detected Filler Words:</strong> ${listStr}. <span class="block mt-1 text-slate-600">Coaching Tip: Take a 1-second breath before answering instead of using verbal fillers.</span>`;
+            }
+
+            // Populate Question-by-Question Breakdown
+            const listEl = document.getElementById('question-breakdown-list');
+            listEl.innerHTML = appState.responses.map((resp, idx) => {
+                const review = (evalData.questionReviews && evalData.questionReviews[idx]) || {
+                    strengths: "Clear effort to respond.",
+                    improvements: "Add specific SAE/FFA metrics and employer terminology.",
+                    modelAnswer: "Connect your hands-on agricultural skills directly to the job description."
+                };
+
+                return `
+                    <div class="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50/50">
+                        <div class="bg-slate-100 px-5 py-3.5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-ffa-navy text-white text-xs font-extrabold px-2.5 py-1 rounded">Q${idx + 1}</span>
+                                <span class="text-xs font-semibold text-slate-600">${resp.category}</span>
+                            </div>
+                            <div class="text-xs text-slate-500 flex items-center gap-3">
+                                <span><i class="fa-regular fa-clock mr-1"></i>${resp.durationSec}s</span>
+                                <span><i class="fa-solid fa-align-left mr-1"></i>${resp.wordCount} words</span>
+                                <span><i class="fa-solid fa-comment-slash mr-1"></i>${resp.fillerCount} fillers</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 space-y-4">
+                            <div>
+                                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Judge Prompt</div>
+                                <p class="font-display font-bold text-base text-slate-900">${resp.question}</p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <div class="text-xs font-bold uppercase tracking-wider text-ffa-navy mb-1">Your Spoken Transcript</div>
+                                <p class="text-sm text-slate-700 italic">"${resp.answerText}"</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-emerald-50/80 border border-emerald-200 rounded-xl p-4">
+                                    <div class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 mb-1">
+                                        <i class="fa-solid fa-thumbs-up mr-1"></i> What You Did Well
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-emerald-950 leading-relaxed">${review.strengths}</p>
+                                </div>
+
+                                <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4">
+                                    <div class="text-xs font-extrabold uppercase tracking-wider text-amber-800 mb-1">
+                                        <i class="fa-solid fa-arrow-trend-up mr-1"></i> How to Score Higher
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-amber-950 leading-relaxed">${review.improvements}</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-blue-50/80 border border-blue-200 rounded-xl p-4">
+                                <div class="text-xs font-extrabold uppercase tracking-wider text-ffa-navy mb-1">
+                                    <i class="fa-solid fa-star text-ffa-gold mr-1"></i> State-Winning Model FFA Response (${job.employer})
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-800 leading-relaxed">${review.modelAnswer}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
